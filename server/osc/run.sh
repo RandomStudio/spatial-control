@@ -2,8 +2,8 @@
 # Launch Open Stage Control with the spatial-control session + module.
 # Run this ON THE SAME MAC AS Max/SPAT5 (10.112.10.50) so OSC stays on localhost.
 #
-#   sudo ./run.sh           (sudo: port 80 is privileged on macOS)
-#   then browse from any device on the LAN to:  http://10.112.10.50
+#   ./run.sh
+#   then browse from any device on the LAN to:  http://10.112.10.50:8080
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -11,7 +11,7 @@ SESSION="$HERE/session.json"
 MODULE="$HERE/modules/spatial.js"
 
 ENGINE_SEND="127.0.0.1:9000"  # -> Max's [udpreceive 9000]  (keep in sync with src/config.ts)
-WEB_PORT="80"                 # browser UI:  http://<this-mac-ip>   (privileged: needs sudo)
+WEB_PORT="8080"               # browser UI:  http://<this-mac-ip>:8080
 OSC_IN_PORT="9001"            # OSC feedback from Max (optional)
 
 # Resolve the Open Stage Control executable. Open Stage Control is distributed as a

@@ -55,6 +55,6 @@ export const CONFIG: SpatialConfig = {
   flipY: 1,
   azimOffset: 0,
 
-  webPort: 80,
+  webPort: 8080,
   oscInPort: 9001,
 };
