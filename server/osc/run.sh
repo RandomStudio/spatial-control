@@ -2,8 +2,8 @@
 # Launch Open Stage Control with the spatial-control session + module.
 # Run this ON THE SAME MAC AS Max/SPAT5 (10.112.10.50) so OSC stays on localhost.
 #
-#   ./run.sh
-#   then browse from any device on the LAN to:  http://10.112.10.50:8080
+#   sudo ./run.sh           (sudo: port 80 is privileged on macOS)
+#   then browse from any device on the LAN to:  http://10.112.10.50
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -11,7 +11,7 @@ SESSION="$HERE/session.json"
 MODULE="$HERE/modules/spatial.js"
 
 ENGINE_SEND="127.0.0.1:9000"  # -> Max's [udpreceive 9000]  (keep in sync with src/config.ts)
-WEB_PORT="8080"               # browser UI:  http://<this-mac-ip>:8080
+WEB_PORT="80"                 # browser UI:  http://<this-mac-ip>   (privileged: needs sudo)
 OSC_IN_PORT="9001"            # OSC feedback from Max (optional)
 
 # Resolve the Open Stage Control executable. Open Stage Control is distributed as a
@@ -37,6 +37,12 @@ if [ -z "$BIN" ] || { ! command -v "$BIN" >/dev/null 2>&1 && [ ! -x "$BIN" ]; };
   exit 1
 fi
 echo "Using Open Stage Control: $BIN"
+
+# Ports below 1024 are privileged on macOS — bind will fail with EACCES unless we're root.
+if [ "$WEB_PORT" -lt 1024 ] && [ "$(id -u)" -ne 0 ]; then
+  echo "ERROR: port ${WEB_PORT} is privileged; re-run with sudo:  sudo ./run.sh" >&2
+  exit 1
+fi
 
 echo "Serving UI on http://0.0.0.0:${WEB_PORT}  ->  sending OSC to ${ENGINE_SEND}"
 exec "$BIN" \

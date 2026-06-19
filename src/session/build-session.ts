@@ -5,9 +5,9 @@
  * UI and the module's slot count stay in lockstep. Run with `npm run build:session`.
  */
 
-import { writeFileSync } from "node:fs";
+import { copyFileSync, writeFileSync } from "node:fs";
 import { CONFIG } from "../config";
-import { button, fader, xy, type Session, type Widget } from "./widgets";
+import { button, disabledButton, fader, image, speaker, xy, type Session, type Widget } from "./widgets";
 
 const STAGE = { top: 70, left: 40, size: 520 };
 const COL0 = 600;
@@ -15,12 +15,63 @@ const COL1 = 720;
 const BTN_W = 110;
 const ROW_H = 80;
 
+/** Open Stage Control version this session targets (silences the load-time warning). */
+const OSC_VERSION = "1.27.0";
+
+/** Floorplan image — copied next to session.json so O-S-C can serve it by relative path. */
+const FLOORPLAN_SRC = "src/floorplan.png";
+const FLOORPLAN_NAME = "floorplan.png";
+
+/**
+ * Source-select slots shown on the control surface (UI only — Max owns the real source
+ * config). `disabled` slots render as greyed, non-interactive placeholders.
+ */
+type SourceSlot =
+  | { i: number; label: string; disabled?: false }
+  | { i: number; label: string; disabled: true; tooltip: string };
+
+const SOURCES: SourceSlot[] = [
+  { i: 1, label: "Sonos" },
+  { i: 2, label: "Source 2", disabled: true, tooltip: "TODO: add sources" },
+];
+
+/** Speaker marker geometry on the stage pad. */
+const SPK_SIZE = 38;
+const SPK_RADIUS = 232; // distance from pad centre to a marker centre (px)
+
+/** Place speaker discs around the pad from their SPAT5 azimuths (deg, 0 = front/up, CCW). */
+function speakerMarkers(): Widget[] {
+  const cx = STAGE.left + STAGE.size / 2;
+  const cy = STAGE.top + STAGE.size / 2;
+  return CONFIG.speakers.map((azDeg, i) => {
+    const az = (azDeg * Math.PI) / 180;
+    // Pad convention (see module xyToAzDist): x = -sin(az), y = cos(az); screen y grows down.
+    const x = -Math.sin(az);
+    const y = Math.cos(az);
+    return speaker({
+      id: `spk${i + 1}`,
+      left: Math.round(cx + x * SPK_RADIUS - SPK_SIZE / 2),
+      top: Math.round(cy - y * SPK_RADIUS - SPK_SIZE / 2),
+      size: SPK_SIZE,
+      text: String(i + 1),
+    });
+  });
+}
+
 function buildSession(): Session {
   const widgets: Widget[] = [];
 
-  // The stage: drag to move the selected source.
+  // Floorplan, drawn behind the stage pad.
   widgets.push(
-    xy({
+    image(
+      { id: "floorplan", top: STAGE.top, left: STAGE.left, width: STAGE.size, height: STAGE.size },
+      FLOORPLAN_NAME,
+    ),
+  );
+
+  // The stage: drag to move the selected source. Transparent so the floorplan shows through.
+  widgets.push({
+    ...xy({
       id: "stage",
       top: STAGE.top,
       left: STAGE.left,
@@ -29,46 +80,30 @@ function buildSession(): Session {
       label: "STAGE  (drag = move selected source)",
       address: "/stage",
     }),
-  );
+    css: "background: transparent;",
+  });
 
-  // Source-select buttons S1..Sn in a 2-column grid.
-  for (let i = 1; i <= CONFIG.maxSources; i++) {
-    const row = Math.floor((i - 1) / 2);
-    const col = (i - 1) % 2;
-    widgets.push(
-      button({
-        id: `s${i}`,
-        top: STAGE.top + row * ROW_H,
-        left: col === 0 ? COL0 : COL1,
-        width: BTN_W,
-        height: 70,
-        label: `S${i}`,
-        address: `/select/${i}`,
-      }),
-    );
-  }
+  // Speaker positions, drawn on top of the floorplan.
+  widgets.push(...speakerMarkers());
 
-  // Controls stacked below the select grid.
-  const rows = Math.ceil(CONFIG.maxSources / 2);
-  let y = STAGE.top + rows * ROW_H + 10;
-
-  widgets.push(
-    button({ id: "add", top: y, left: COL0, width: BTN_W, height: 60, label: "+ Add", address: "/add" }),
-    button({ id: "remove", top: y, left: COL1, width: BTN_W, height: 60, label: "- Remove", address: "/remove" }),
-  );
-  y += ROW_H;
-  widgets.push(
-    button({ id: "setup", top: y, left: COL0, width: 230, height: 60, label: "Setup renderer", address: "/setup" }),
-  );
-  y += ROW_H;
-  widgets.push(
-    button({ id: "pan_vbap", top: y, left: COL0, width: BTN_W, height: 60, label: "VBAP2D", address: "/panning/vbap2d" }),
-    button({ id: "pan_dbap", top: y, left: COL1, width: BTN_W, height: 60, label: "DBAP", address: "/panning/dbap" }),
-  );
-  y += ROW_H;
-  widgets.push(
-    button({ id: "viewer", top: y, left: COL0, width: 230, height: 50, label: "Open spat5 viewer", address: "/viewer" }, "toggle"),
-  );
+  // Source-select buttons in a 2-column grid. The actual source/renderer setup lives in
+  // Max; this is just the control surface. For now we expose Sonos (source 1) plus a single
+  // greyed-out placeholder where future sources will go.
+  SOURCES.forEach((s, idx) => {
+    const row = Math.floor(idx / 2);
+    const col = idx % 2;
+    const top = STAGE.top + row * ROW_H;
+    const left = col === 0 ? COL0 : COL1;
+    if (s.disabled) {
+      widgets.push(
+        disabledButton({ id: `s${s.i}`, top, left, width: BTN_W, height: 70, text: s.label, tooltip: s.tooltip }),
+      );
+    } else {
+      widgets.push(
+        button({ id: `s${s.i}`, top, left, width: BTN_W, height: 70, label: s.label, address: `/select/${s.i}` }),
+      );
+    }
+  });
 
   // Level fader for the selected source = SPAT5 "presence" (0..120, default 90).
   widgets.push(
@@ -83,13 +118,16 @@ function buildSession(): Session {
   return {
     type: "root",
     id: "root",
+    version: OSC_VERSION,
     width: 1120,
-    height: y + 50 + 30,
+    height: STAGE.top + STAGE.size + 30,
     widgets,
   };
 }
 
 const session = buildSession();
-const out = "server/osc/session.json";
+const outDir = "server/osc";
+const out = `${outDir}/session.json`;
+copyFileSync(FLOORPLAN_SRC, `${outDir}/${FLOORPLAN_NAME}`);
 writeFileSync(out, JSON.stringify(session, null, 2) + "\n");
-console.log(`wrote ${out} (${session.widgets.length} widgets, ${CONFIG.maxSources} source slots)`);
+console.log(`wrote ${out} (${session.widgets.length} widgets, ${SOURCES.length} source slots)`);
