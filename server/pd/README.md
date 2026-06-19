@@ -1,4 +1,7 @@
-# Pd side — OSC ingress into SPAT5
+# Pd side — OSC ingress into SPAT5 (Pure Data variant)
+
+> Your production rig is **Max** — use [`../max/`](../max/) instead. This folder is only
+> for the Pure Data version (the `spat5.test.pd` file).
 
 Open Stage Control sends SPAT5 OSC over UDP to Pd. These two patches receive it.
 Both use **Pd-vanilla** objects only (`netreceive`, `oscparse`, `list trim`) —

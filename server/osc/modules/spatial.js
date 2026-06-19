@@ -3,8 +3,8 @@
 
 // src/config.ts
 var CONFIG = {
-  pdHost: "127.0.0.1",
-  pdPort: 9e3,
+  engineHost: "127.0.0.1",
+  enginePort: 9e3,
   maxSources: 8,
   startSources: 2,
   // From random_multichannel.maxpat. CHANGE to match your physical speaker layout.
@@ -58,7 +58,7 @@ function pressed(args) {
 }
 function spat(address, ...rest) {
   try {
-    send(C.pdHost, C.pdPort, address, ...rest);
+    send(C.engineHost, C.enginePort, address, ...rest);
   } catch (e) {
     console.log(`spatial: send failed for ${address}`, e);
   }
@@ -89,7 +89,7 @@ function setupRenderer() {
 var mod = {
   init() {
     console.log(
-      `spatial-control ready -> Pd ${C.pdHost}:${C.pdPort}, ${state.count}/${C.maxSources} sources`
+      `spatial-control ready -> Max ${C.engineHost}:${C.enginePort}, ${state.count}/${C.maxSources} sources`
     );
   },
   oscOutFilter(data) {

@@ -9,10 +9,10 @@
  */
 
 export interface SpatialConfig {
-  /** Pd host. Same machine as Open Stage Control, so localhost. */
-  readonly pdHost: string;
-  /** UDP port Pd listens on — must match `[netreceive -u -b <port>]` in the patch. */
-  readonly pdPort: number;
+  /** Audio-engine host (Max/SPAT5). Same machine as Open Stage Control, so localhost. */
+  readonly engineHost: string;
+  /** UDP port Max listens on — must match `[udpreceive <port>]` in the patch. */
+  readonly enginePort: number;
 
   /** Pre-allocated source slots. MUST be <= `spat5.spat~ @inputs`. Drives the S1..Sn buttons. */
   readonly maxSources: number;
@@ -39,8 +39,8 @@ export interface SpatialConfig {
 }
 
 export const CONFIG: SpatialConfig = {
-  pdHost: "127.0.0.1",
-  pdPort: 9000,
+  engineHost: "127.0.0.1",
+  enginePort: 9000,
 
   maxSources: 8,
   startSources: 2,

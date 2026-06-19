@@ -38,7 +38,7 @@ function pressed(args: OscArg[]): boolean {
 /** Send one OSC message to Pd. */
 function spat(address: string, ...rest: Array<number | string>): void {
   try {
-    send(C.pdHost, C.pdPort, address, ...rest);
+    send(C.engineHost, C.enginePort, address, ...rest);
   } catch (e) {
     console.log(`spatial: send failed for ${address}`, e);
   }
@@ -77,7 +77,7 @@ function setupRenderer(): void {
 const mod: CustomModule = {
   init() {
     console.log(
-      `spatial-control ready -> Pd ${C.pdHost}:${C.pdPort}, ` +
+      `spatial-control ready -> Max ${C.engineHost}:${C.enginePort}, ` +
         `${state.count}/${C.maxSources} sources`,
     );
   },
