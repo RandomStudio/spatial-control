@@ -1,0 +1,13 @@
+#N canvas 120 120 540 360 12;
+#X obj 40 50 netreceive -u -b 9000;
+#X obj 40 110 oscparse;
+#X obj 40 160 list trim;
+#X obj 40 210 outlet;
+#X text 250 48 <- UDP 9000 (binary) from Open Stage Control;
+#X text 250 108 <- raw OSC packet -> message;
+#X text 250 158 <- list -> "/source/1/azim 45" style message;
+#X text 40 250 Drop this abstraction into your main patch and connect its;
+#X text 40 270 outlet to the LEFT inlet of spat5.spat~ (and spat5.oper).;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;

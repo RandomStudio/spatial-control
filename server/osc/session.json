@@ -1,0 +1,197 @@
+{
+  "type": "root",
+  "id": "root",
+  "width": 1120,
+  "height": 720,
+  "widgets": [
+    {
+      "type": "xy",
+      "id": "stage",
+      "top": 70,
+      "left": 40,
+      "width": 520,
+      "height": 520,
+      "label": "STAGE  (drag = move selected source)",
+      "address": "/stage",
+      "rangeX": {
+        "min": -1,
+        "max": 1
+      },
+      "rangeY": {
+        "min": -1,
+        "max": 1
+      },
+      "pointSize": 28,
+      "decimals": 4
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "s1",
+      "top": 70,
+      "left": 600,
+      "width": 110,
+      "height": 70,
+      "label": "S1",
+      "address": "/select/1"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "s2",
+      "top": 70,
+      "left": 720,
+      "width": 110,
+      "height": 70,
+      "label": "S2",
+      "address": "/select/2"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "s3",
+      "top": 150,
+      "left": 600,
+      "width": 110,
+      "height": 70,
+      "label": "S3",
+      "address": "/select/3"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "s4",
+      "top": 150,
+      "left": 720,
+      "width": 110,
+      "height": 70,
+      "label": "S4",
+      "address": "/select/4"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "s5",
+      "top": 230,
+      "left": 600,
+      "width": 110,
+      "height": 70,
+      "label": "S5",
+      "address": "/select/5"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "s6",
+      "top": 230,
+      "left": 720,
+      "width": 110,
+      "height": 70,
+      "label": "S6",
+      "address": "/select/6"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "s7",
+      "top": 310,
+      "left": 600,
+      "width": 110,
+      "height": 70,
+      "label": "S7",
+      "address": "/select/7"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "s8",
+      "top": 310,
+      "left": 720,
+      "width": 110,
+      "height": 70,
+      "label": "S8",
+      "address": "/select/8"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "add",
+      "top": 400,
+      "left": 600,
+      "width": 110,
+      "height": 60,
+      "label": "+ Add",
+      "address": "/add"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "remove",
+      "top": 400,
+      "left": 720,
+      "width": 110,
+      "height": 60,
+      "label": "- Remove",
+      "address": "/remove"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "setup",
+      "top": 480,
+      "left": 600,
+      "width": 230,
+      "height": 60,
+      "label": "Setup renderer",
+      "address": "/setup"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "pan_vbap",
+      "top": 560,
+      "left": 600,
+      "width": 110,
+      "height": 60,
+      "label": "VBAP2D",
+      "address": "/panning/vbap2d"
+    },
+    {
+      "type": "button",
+      "mode": "tap",
+      "id": "pan_dbap",
+      "top": 560,
+      "left": 720,
+      "width": 110,
+      "height": 60,
+      "label": "DBAP",
+      "address": "/panning/dbap"
+    },
+    {
+      "type": "button",
+      "mode": "toggle",
+      "id": "viewer",
+      "top": 640,
+      "left": 600,
+      "width": 230,
+      "height": 50,
+      "label": "Open spat5 viewer",
+      "address": "/viewer"
+    },
+    {
+      "type": "fader",
+      "id": "gain",
+      "top": 70,
+      "left": 980,
+      "width": 100,
+      "height": 520,
+      "label": "Gain (sel) dB",
+      "address": "/gain",
+      "range": {
+        "min": -60,
+        "max": 12
+      },
+      "value": 0
+    }
+  ]
+}

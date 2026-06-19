@@ -1,0 +1,12 @@
+#N canvas 140 140 560 360 12;
+#X obj 40 50 netreceive -u -b 9000;
+#X obj 40 110 oscparse;
+#X obj 40 160 list trim;
+#X obj 40 210 print OSC-IN;
+#X text 250 48 <- UDP 9000 from Open Stage Control;
+#X text 40 250 Standalone tester. Open this in Pd \, start Open Stage;
+#X text 40 270 Control \, drag the stage in the browser. You should see;
+#X text 40 290 e.g. "OSC-IN: /source/1/azim 45" in the Pd console.;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;

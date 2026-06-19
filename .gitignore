@@ -1,0 +1,7 @@
+node_modules/
+
+# Build outputs are committed on purpose: the remote Mac runs Open Stage Control
+# directly from server/ without a build step. Regenerate them with `npm run build`.
+# (Uncomment the lines below if you decide to build on the remote Mac instead.)
+# server/osc/modules/spatial.js
+# server/osc/session.json

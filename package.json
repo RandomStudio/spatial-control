@@ -1,0 +1,19 @@
+{
+  "name": "spatial-control",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser control surface for a SPAT5 / Pure Data spatial-audio rig, built on Open Stage Control.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build:module": "node scripts/build-module.mjs",
+    "build:session": "tsx src/session/build-session.ts",
+    "build": "npm run typecheck && npm run build:module && npm run build:session",
+    "clean": "rm -f server/osc/modules/spatial.js server/osc/session.json"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "esbuild": "^0.24.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
