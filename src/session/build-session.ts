@@ -1,13 +1,14 @@
 /**
  * Generates server/osc/session.json — the Open Stage Control UI.
  *
- * The number of source-select buttons is derived from CONFIG.maxSources, so the
- * UI and the module's slot count stay in lockstep. Run with `npm run build:session`.
+ * Output is wrapped in O-S-C's session envelope ({ session: <root>, version, type }).
+ * Speaker markers are derived from CONFIG.speakers; source slots from SOURCES below.
+ * Run with `npm run build:session`.
  */
 
 import { copyFileSync, writeFileSync } from "node:fs";
 import { CONFIG } from "../config";
-import { button, disabledButton, fader, image, speaker, xy, type Session, type Widget } from "./widgets";
+import { button, disabledButton, fader, image, speaker, xy, type Root, type Session, type Widget } from "./widgets";
 
 const STAGE = { top: 70, left: 40, size: 520 };
 const COL0 = 600;
@@ -16,7 +17,7 @@ const BTN_W = 110;
 const ROW_H = 80;
 
 /** Open Stage Control version this session targets (silences the load-time warning). */
-const OSC_VERSION = "1.27.0";
+const OSC_VERSION = "1.30.0";
 
 /** Floorplan image — copied next to session.json so O-S-C can serve it by relative path. */
 const FLOORPLAN_SRC = "src/floorplan.png";
@@ -26,13 +27,11 @@ const FLOORPLAN_NAME = "floorplan.png";
  * Source-select slots shown on the control surface (UI only — Max owns the real source
  * config). `disabled` slots render as greyed, non-interactive placeholders.
  */
-type SourceSlot =
-  | { i: number; label: string; disabled?: false }
-  | { i: number; label: string; disabled: true; tooltip: string };
+type SourceSlot = { i: number; label: string; disabled?: boolean };
 
 const SOURCES: SourceSlot[] = [
   { i: 1, label: "Sonos" },
-  { i: 2, label: "Source 2", disabled: true, tooltip: "TODO: add sources" },
+  { i: 2, label: "Source 2", disabled: true },
 ];
 
 /** Speaker marker geometry on the stage pad. */
@@ -58,7 +57,7 @@ function speakerMarkers(): Widget[] {
   });
 }
 
-function buildSession(): Session {
+function buildSession(): Root {
   const widgets: Widget[] = [];
 
   // Floorplan, drawn behind the stage pad.
@@ -96,7 +95,7 @@ function buildSession(): Session {
     const left = col === 0 ? COL0 : COL1;
     if (s.disabled) {
       widgets.push(
-        disabledButton({ id: `s${s.i}`, top, left, width: BTN_W, height: 70, text: s.label, tooltip: s.tooltip }),
+        disabledButton({ id: `s${s.i}`, top, left, width: BTN_W, height: 70, text: s.label }),
       );
     } else {
       widgets.push(
@@ -118,16 +117,21 @@ function buildSession(): Session {
   return {
     type: "root",
     id: "root",
-    version: OSC_VERSION,
     width: 1120,
     height: STAGE.top + STAGE.size + 30,
     widgets,
   };
 }
 
-const session = buildSession();
+// O-S-C expects the root nested under `session`, with version + envelope type alongside.
+const session: Session = {
+  session: buildSession(),
+  version: OSC_VERSION,
+  type: "Open Stage Control session",
+};
+
 const outDir = "server/osc";
 const out = `${outDir}/session.json`;
 copyFileSync(FLOORPLAN_SRC, `${outDir}/${FLOORPLAN_NAME}`);
 writeFileSync(out, JSON.stringify(session, null, 2) + "\n");
-console.log(`wrote ${out} (${session.widgets.length} widgets, ${SOURCES.length} source slots)`);
+console.log(`wrote ${out} (${session.session.widgets.length} widgets, ${SOURCES.length} source slots)`);

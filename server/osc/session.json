@@ -1,136 +1,141 @@
 {
-  "type": "root",
-  "id": "root",
-  "version": "1.27.0",
-  "width": 1120,
-  "height": 620,
-  "widgets": [
-    {
-      "type": "image",
-      "id": "floorplan",
-      "top": 70,
-      "left": 40,
-      "width": 520,
-      "height": 520,
-      "value": "floorplan.png",
-      "css": "background-size: cover; background-position: center; opacity: 0.85; pointer-events: none;"
-    },
-    {
-      "type": "xy",
-      "id": "stage",
-      "top": 70,
-      "left": 40,
-      "width": 520,
-      "height": 520,
-      "label": "STAGE  (drag = move selected source)",
-      "address": "/stage",
-      "rangeX": {
-        "min": -1,
-        "max": 1
+  "session": {
+    "type": "root",
+    "id": "root",
+    "width": 1120,
+    "height": 620,
+    "widgets": [
+      {
+        "type": "image",
+        "id": "floorplan",
+        "top": 70,
+        "left": 40,
+        "width": 520,
+        "height": 520,
+        "value": "floorplan.png",
+        "size": "cover",
+        "position": "center",
+        "css": "opacity: 0.85; pointer-events: none;"
       },
-      "rangeY": {
-        "min": -1,
-        "max": 1
+      {
+        "type": "xy",
+        "id": "stage",
+        "top": 70,
+        "left": 40,
+        "width": 520,
+        "height": 520,
+        "label": "STAGE  (drag = move selected source)",
+        "address": "/stage",
+        "rangeX": {
+          "min": -1,
+          "max": 1
+        },
+        "rangeY": {
+          "min": -1,
+          "max": 1
+        },
+        "pointSize": 28,
+        "decimals": 4,
+        "css": "background: transparent;"
       },
-      "pointSize": 28,
-      "decimals": 4,
-      "css": "background: transparent;"
-    },
-    {
-      "type": "text",
-      "id": "spk1",
-      "top": 195,
-      "left": 482,
-      "width": 38,
-      "height": 38,
-      "value": "1",
-      "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
-    },
-    {
-      "type": "text",
-      "id": "spk2",
-      "top": 79,
-      "left": 281,
-      "width": 38,
-      "height": 38,
-      "value": "2",
-      "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
-    },
-    {
-      "type": "text",
-      "id": "spk3",
-      "top": 195,
-      "left": 80,
-      "width": 38,
-      "height": 38,
-      "value": "3",
-      "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
-    },
-    {
-      "type": "text",
-      "id": "spk4",
-      "top": 427,
-      "left": 80,
-      "width": 38,
-      "height": 38,
-      "value": "4",
-      "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
-    },
-    {
-      "type": "text",
-      "id": "spk5",
-      "top": 543,
-      "left": 281,
-      "width": 38,
-      "height": 38,
-      "value": "5",
-      "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
-    },
-    {
-      "type": "text",
-      "id": "spk6",
-      "top": 427,
-      "left": 482,
-      "width": 38,
-      "height": 38,
-      "value": "6",
-      "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
-    },
-    {
-      "type": "button",
-      "mode": "tap",
-      "id": "s1",
-      "top": 70,
-      "left": 600,
-      "width": 110,
-      "height": 70,
-      "label": "Sonos",
-      "address": "/select/1"
-    },
-    {
-      "type": "text",
-      "id": "s2",
-      "top": 70,
-      "left": 720,
-      "width": 110,
-      "height": 70,
-      "value": "<span title=\"TODO: add sources\">Source 2</span>",
-      "css": "background: #2a2a2a; color: #666; border: 1px solid #444; border-radius: 3px; text-align: center; line-height: 70px; opacity: 0.6; cursor: not-allowed;"
-    },
-    {
-      "type": "fader",
-      "id": "presence",
-      "top": 70,
-      "left": 980,
-      "width": 100,
-      "height": 520,
-      "label": "Level (presence)",
-      "address": "/presence",
-      "range": {
-        "min": 0,
-        "max": 120
+      {
+        "type": "text",
+        "id": "spk1",
+        "top": 195,
+        "left": 482,
+        "width": 38,
+        "height": 38,
+        "value": "1",
+        "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
       },
-      "value": 90
-    }
-  ]
+      {
+        "type": "text",
+        "id": "spk2",
+        "top": 79,
+        "left": 281,
+        "width": 38,
+        "height": 38,
+        "value": "2",
+        "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
+      },
+      {
+        "type": "text",
+        "id": "spk3",
+        "top": 195,
+        "left": 80,
+        "width": 38,
+        "height": 38,
+        "value": "3",
+        "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
+      },
+      {
+        "type": "text",
+        "id": "spk4",
+        "top": 427,
+        "left": 80,
+        "width": 38,
+        "height": 38,
+        "value": "4",
+        "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
+      },
+      {
+        "type": "text",
+        "id": "spk5",
+        "top": 543,
+        "left": 281,
+        "width": 38,
+        "height": 38,
+        "value": "5",
+        "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
+      },
+      {
+        "type": "text",
+        "id": "spk6",
+        "top": 427,
+        "left": 482,
+        "width": 38,
+        "height": 38,
+        "value": "6",
+        "css": "border-radius: 50%; background: rgba(255,140,0,0.9); color: #fff; font-weight: 700; box-shadow: 0 0 6px rgba(0,0,0,0.6); pointer-events: none;"
+      },
+      {
+        "type": "button",
+        "mode": "tap",
+        "id": "s1",
+        "top": 70,
+        "left": 600,
+        "width": 110,
+        "height": 70,
+        "label": "Sonos",
+        "address": "/select/1"
+      },
+      {
+        "type": "text",
+        "id": "s2",
+        "top": 70,
+        "left": 720,
+        "width": 110,
+        "height": 70,
+        "value": "Source 2",
+        "css": "background: #2a2a2a; color: #666; border: 1px solid #444; border-radius: 3px; opacity: 0.6; cursor: not-allowed;"
+      },
+      {
+        "type": "fader",
+        "id": "presence",
+        "top": 70,
+        "left": 980,
+        "width": 100,
+        "height": 520,
+        "label": "Level (presence)",
+        "address": "/presence",
+        "range": {
+          "min": 0,
+          "max": 120
+        },
+        "value": 90
+      }
+    ]
+  },
+  "version": "1.30.0",
+  "type": "Open Stage Control session"
 }

@@ -12,14 +12,25 @@ export interface Widget {
   [k: string]: unknown;
 }
 
-export interface Session {
+/** The root container widget. */
+export interface Root {
   type: "root";
   id: string;
-  /** Matches the installed Open Stage Control version so it doesn't warn on load. */
-  version?: string;
   width: number;
   height: number;
   widgets: Widget[];
+}
+
+/**
+ * A session file as Open Stage Control reads it: the root widget is nested under `session`,
+ * with the version + a fixed envelope type alongside. Writing the root at the top level
+ * (no wrapper) makes O-S-C throw "cannot read properties of undefined (reading 'type')".
+ */
+export interface Session {
+  session: Root;
+  /** Matches the installed Open Stage Control version so it doesn't warn on load. */
+  version: string;
+  type: "Open Stage Control session";
 }
 
 interface Box {
@@ -36,7 +47,7 @@ export function button(b: Box, mode: "tap" | "toggle" | "push" = "tap"): Widget 
   return { type: "button", mode, ...b };
 }
 
-/** A greyed-out, non-interactive button look-alike with a hover tooltip (HTML `title`). */
+/** A greyed-out, non-interactive button look-alike (a styled text widget). */
 export function disabledButton(b: {
   id: string;
   top: number;
@@ -44,7 +55,6 @@ export function disabledButton(b: {
   width: number;
   height: number;
   text: string;
-  tooltip: string;
 }): Widget {
   return {
     type: "text",
@@ -53,11 +63,10 @@ export function disabledButton(b: {
     left: b.left,
     width: b.width,
     height: b.height,
-    value: `<span title="${b.tooltip}">${b.text}</span>`,
+    value: b.text,
     css:
       `background: #2a2a2a; color: #666; border: 1px solid #444;` +
-      ` border-radius: 3px; text-align: center; line-height: ${b.height}px;` +
-      ` opacity: 0.6; cursor: not-allowed;`,
+      ` border-radius: 3px; opacity: 0.6; cursor: not-allowed;`,
   };
 }
 
@@ -85,9 +94,9 @@ export function image(
     type: "image",
     ...b,
     value: src,
-    css:
-      "background-size: cover; background-position: center;" +
-      " opacity: 0.85; pointer-events: none;",
+    size: "cover",
+    position: "center",
+    css: "opacity: 0.85; pointer-events: none;",
   };
 }
 
