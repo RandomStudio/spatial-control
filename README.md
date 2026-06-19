@@ -75,9 +75,9 @@ rsync -av ~/repos/spatial-control/ andrew@10.112.10.50:~/spatial-control/
 ```
 
 **2. Install Open Stage Control on that Mac.** This is the one new piece of software — it's
-the server that hosts the UI and sends OSC. Either:
-- the macOS app from <https://openstagecontrol.ammd.net/>, or
-- `npm i -g open-stage-control` (needs Node).
+the server that hosts the UI and sends OSC. Download the **macOS app** from
+<https://openstagecontrol.ammd.net/> (GitHub releases) and drop it in **/Applications**.
+(It's a prebuilt app, not an npm package — `run.sh` auto-detects it in /Applications.)
 
 It must live on the *same* Mac as Max so OSC to Max stays on `127.0.0.1` (no firewall, no
 latency in the control path).
