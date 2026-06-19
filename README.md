@@ -112,10 +112,11 @@ click **Setup renderer** once, **+ Add** an emitter, select S1…S8, and drag th
   panning. Default is `random_multichannel.maxpat`'s `300 0 60 120 180 240`.
 - **Mirrored movement:** if left/right or front/back is reversed, flip `flipX` / `flipY`
   (or rotate the field with `azimOffset`) in `src/config.ts`.
-- **Confirmed vs best-effort OSC:** `/source/N/azim`, `/source/number`, `/speaker/number`,
-  `/speakers/az`, `/panning/type`, `/viewer/visible`, `/window/open|close` were seen in your
-  patches. `/source/N/dist` and `/source/N/gain` are best-effort — if they do nothing, verify
-  with `spat5.osc.print` and fix the one line in [`src/spat5.ts`](src/spat5.ts).
+- **OSC vocabulary** (all verified live on the rig): position via `/source/N/azim` +
+  `/source/N/dist`; level via `/source/N/pres` ("presence", 0–120, default 90); scene via
+  `/source/number`, `/speaker/number`, `/speakers/az`, `/panning/type`. Note `/source/N/gain`
+  is **not** valid in spat5 (that's SPAT Revolution's grammar) — spat5 uses `pres`.
+  Addresses live in [`src/spat5.ts`](src/spat5.ts).
 - **`spat5.spat~ @inputs`** must be ≥ `maxSources` (8) or extra sources won't render.
 - **`udpreceive` missing/red in Max?** Install CNMAT-Externals via the Max Package Manager.
 - This is open-loop (UI is the source of truth). Live feedback dots are a future addition via

@@ -23,11 +23,11 @@ var CONFIG = {
 var spat5 = {
   // --- per source ---
   sourceAzim: (i) => `/source/${i}/azim`,
-  // CONFIRMED
+  // CONFIRMED (live on rig)
   sourceDist: (i) => `/source/${i}/dist`,
-  // BEST-EFFORT
-  sourceGain: (i) => `/source/${i}/gain`,
-  // BEST-EFFORT
+  // CONFIRMED (live on rig)
+  // SPAT5 per-source level = perceptual "presence" (0..120, default 90). NOT /gain.
+  sourcePresence: (i) => `/source/${i}/pres`,
   // --- scene / renderer ---
   sourceNumber: "/source/number",
   // CONFIRMED
@@ -132,8 +132,8 @@ var mod = {
       }
       return;
     }
-    if (address === "/gain") {
-      spat(spat5.sourceGain(state.selected), num(args[0]));
+    if (address === "/presence") {
+      spat(spat5.sourcePresence(state.selected), num(args[0]));
       return;
     }
     if (address.indexOf("/panning/") === 0) {

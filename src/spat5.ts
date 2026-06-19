@@ -9,9 +9,10 @@
 
 export const spat5 = {
   // --- per source ---
-  sourceAzim: (i: number) => `/source/${i}/azim`, // CONFIRMED
-  sourceDist: (i: number) => `/source/${i}/dist`, // BEST-EFFORT
-  sourceGain: (i: number) => `/source/${i}/gain`, // BEST-EFFORT
+  sourceAzim: (i: number) => `/source/${i}/azim`, // CONFIRMED (live on rig)
+  sourceDist: (i: number) => `/source/${i}/dist`, // CONFIRMED (live on rig)
+  // SPAT5 per-source level = perceptual "presence" (0..120, default 90). NOT /gain.
+  sourcePresence: (i: number) => `/source/${i}/pres`,
 
   // --- scene / renderer ---
   sourceNumber: "/source/number" as const, // CONFIRMED

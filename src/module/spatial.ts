@@ -130,9 +130,9 @@ const mod: CustomModule = {
       return;
     }
 
-    // level of the selected source
-    if (address === "/gain") {
-      spat(spat5.sourceGain(state.selected), num(args[0]!));
+    // level of the selected source (SPAT5 "presence", 0..120)
+    if (address === "/presence") {
+      spat(spat5.sourcePresence(state.selected), num(args[0]!));
       return;
     }
 

@@ -70,12 +70,13 @@ function buildSession(): Session {
     button({ id: "viewer", top: y, left: COL0, width: 230, height: 50, label: "Open spat5 viewer", address: "/viewer" }, "toggle"),
   );
 
-  // Gain fader for the selected source, full height alongside the stage.
+  // Level fader for the selected source = SPAT5 "presence" (0..120, default 90).
   widgets.push(
     fader(
-      { id: "gain", top: STAGE.top, left: 980, width: 100, height: STAGE.size, label: "Gain (sel) dB", address: "/gain" },
-      -60,
-      12,
+      { id: "presence", top: STAGE.top, left: 980, width: 100, height: STAGE.size, label: "Level (presence)", address: "/presence" },
+      0,
+      120,
+      90,
     ),
   );
 
