@@ -17,7 +17,7 @@ const BTN_W = 110;
 const ROW_H = 80;
 
 /** Open Stage Control version this session targets (silences the load-time warning). */
-const OSC_VERSION = "1.30.0";
+const OSC_VERSION = "1.30.3";
 
 /** Floorplan image — copied next to session.json so O-S-C can serve it by relative path. */
 const FLOORPLAN_SRC = "src/floorplan.png";
@@ -123,15 +123,14 @@ function buildSession(): Root {
   };
 }
 
-// O-S-C expects the root nested under `session`, with version + envelope type alongside.
+// O-S-C (v1.30) expects the root nested under `content`, with the version alongside.
 const session: Session = {
-  session: buildSession(),
   version: OSC_VERSION,
-  type: "Open Stage Control session",
+  content: buildSession(),
 };
 
 const outDir = "server/osc";
 const out = `${outDir}/session.json`;
 copyFileSync(FLOORPLAN_SRC, `${outDir}/${FLOORPLAN_NAME}`);
 writeFileSync(out, JSON.stringify(session, null, 2) + "\n");
-console.log(`wrote ${out} (${session.session.widgets.length} widgets, ${SOURCES.length} source slots)`);
+console.log(`wrote ${out} (${session.content.widgets.length} widgets, ${SOURCES.length} source slots)`);

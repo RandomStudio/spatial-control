@@ -22,15 +22,18 @@ export interface Root {
 }
 
 /**
- * A session file as Open Stage Control reads it: the root widget is nested under `session`,
- * with the version + a fixed envelope type alongside. Writing the root at the top level
- * (no wrapper) makes O-S-C throw "cannot read properties of undefined (reading 'type')".
+ * A session file as Open Stage Control reads it (v1.30): the root widget is nested under
+ * `content`, with the version alongside. O-S-C's loader returns `data.content` as the root
+ * (see managers/session/session.mjs `getRoot()`); writing the root at the top level — or
+ * under `session` (the pre-0.49.12 key) — makes it throw
+ * "cannot read properties of undefined (reading 'type')".
+ *
+ * `version` must be >= the newest session converter (1.24.2) so no migration runs; matching
+ * the installed O-S-C version also silences the "different version" warning.
  */
 export interface Session {
-  session: Root;
-  /** Matches the installed Open Stage Control version so it doesn't warn on load. */
   version: string;
-  type: "Open Stage Control session";
+  content: Root;
 }
 
 interface Box {

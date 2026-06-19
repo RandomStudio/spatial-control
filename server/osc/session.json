@@ -1,5 +1,6 @@
 {
-  "session": {
+  "version": "1.30.3",
+  "content": {
     "type": "root",
     "id": "root",
     "width": 1120,
@@ -135,7 +136,5 @@
         "value": 90
       }
     ]
-  },
-  "version": "1.30.0",
-  "type": "Open Stage Control session"
+  }
 }
